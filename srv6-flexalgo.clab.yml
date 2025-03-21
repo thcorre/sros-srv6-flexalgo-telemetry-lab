@@ -16,31 +16,31 @@ topology:
     R1:
       kind: nokia_sros
       type: ixr-e2c
-      startup-config: config/R1/R1.cfg
+      startup-config: configs/R1/R1.cfg
 
     R2:
       kind: nokia_sros
       type: ixr-e2
-      startup-config: config/R2/R2.cfg
+      startup-config: configs/R2/R2.cfg
 
     R3:
       kind: nokia_sros
       type: >-
         cp: cpu=2 ram=4 chassis=ixr-r6d slot=A card=cpm-ixr-r6d/iom-ixr-r6d ___
         lc: cpu=4 ram=6 chassis=ixr-r6d slot=1 card=cpm-ixr-r6d/iom-ixr-r6d mda/1=m5-100g-qsfp28
-      startup-config: config/R3/R3.cfg
+      startup-config: configs/R3/R3.cfg
 
     R4:
       kind: nokia_sros
       type: sr-1
-      startup-config: config/R4/R4.cfg
+      startup-config: configs/R4/R4.cfg
 
     R5:
       kind: nokia_sros
       type: >-
         cp: cpu=2 ram=4 chassis=sr-1se slot=A card=cpm-1se ___
         lc: cpu=4 ram=6 max_nics=36 chassis=sr-1se slot=1 card=imm36-800g-qsfpdd mda/1=ms36-800g-qsfpdd
-      startup-config: config/R5/R5.cfg
+      startup-config: configs/R5/R5.cfg
 
     client1:
       kind: linux
@@ -59,7 +59,7 @@ topology:
       kind: linux
       image: ghcr.io/openconfig/gnmic:0.38.2
       binds:
-        - ./config/gnmic/gnmic-config.yaml:/app/gnmic-config.yaml:ro
+        - ./configs/gnmic/gnmic-config.yaml:/app/gnmic-config.yaml:ro
       cmd: '--config /app/gnmic-config.yaml --log subscribe'
       ports:
         - 9804:9804
@@ -68,7 +68,7 @@ topology:
       kind: linux
       image: prom/prometheus:v2.54.1
       binds:
-        - ./config/prometheus:/etc/prometheus/
+        - ./configs/prometheus:/etc/prometheus/
       ports:
         - 9090:9090
       cmd: '--config.file=/etc/prometheus/prometheus.yaml --storage.tsdb.path=/prometheus --web.console.libraries=/usr/share/prometheus/console_libraries --web.console.templates=/usr/share/prometheus/consoles --log.level=debug'
@@ -77,9 +77,9 @@ topology:
       kind: linux
       image: grafana/grafana:10.3.5
       binds:
-        - config/grafana/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
-        - config/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
-        - config/grafana/dashboards/:/var/lib/grafana/dashboards
+        - configs/grafana/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+        - configs/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+        - configs/grafana/dashboards/:/var/lib/grafana/dashboards
       ports: 
         - 3000:3000
       env:
