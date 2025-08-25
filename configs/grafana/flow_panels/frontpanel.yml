@@ -1,0 +1,82 @@
+---
+anchors:
+  thresholds-operstate: &thresholds-operstate
+    - color: "#FF3154" # red
+      level: 0
+    - color: "#4BDD33" # green
+      level: 1
+cellIdPreamble: cell-
+cells:
+  # R1 interfaces (IXR-e2c)
+  R1:1/1/c1/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R1:1/1/c1/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R1:1/1/c2/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R1:1/1/c2/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R1:1/1/c3/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R1:1/1/c3/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  
+  # R2 interfaces (IXR-e2)
+  R2:1/1/c5/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R2:1/1/c5/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R2:1/1/c6/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R2:1/1/c6/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R2:1/1/c7/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R2:1/1/c7/1
+    fillColor:
+      thresholds: *thresholds-operstate
+
+  # R3 interfaces (IXR-r6d)
+  R3:1/1/c1/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R3:1/1/c1/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R3:1/1/c2/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R3:1/1/c2/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R3:1/1/c3/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R3:1/1/c3/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R3:1/1/c4/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R3:1/1/c4/1
+    fillColor:
+      thresholds: *thresholds-operstate
+
+  # R4 interfaces (SR-1)
+  R4:1/1/c1/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R4:1/1/c1/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R4:1/1/c2/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R4:1/1/c2/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R4:1/1/c3/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R4:1/1/c3/1
+    fillColor:
+      thresholds: *thresholds-operstate
+
+  # R5 interfaces (SR-1se)
+  R5:1/1/c1/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R5:1/1/c1/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R5:1/1/c2/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R5:1/1/c2/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  R5:1/1/c3/1:
+    dataRef: oper-state:clab-srv6-flexalgo-R5:1/1/c3/1
+    fillColor:
+      thresholds: *thresholds-operstate
