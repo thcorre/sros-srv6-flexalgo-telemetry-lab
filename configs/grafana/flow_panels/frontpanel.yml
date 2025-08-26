@@ -23,15 +23,15 @@ cells:
   
   # R2 interfaces (IXR-e2)
   R2:1/1/c5/1:
-    dataRef: oper-state:clab-srv6-flexalgo-R2:1/1/c5/1
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r2:to-R3
     fillColor:
       thresholds: *thresholds-operstate
   R2:1/1/c6/1:
-    dataRef: oper-state:clab-srv6-flexalgo-R2:1/1/c6/1
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r2:to-R4
     fillColor:
       thresholds: *thresholds-operstate
   R2:1/1/c7/1:
-    dataRef: oper-state:clab-srv6-flexalgo-R2:1/1/c7/1
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r2:to-R1
     fillColor:
       thresholds: *thresholds-operstate
 
