@@ -37,46 +37,46 @@ cells:
 
   # R3 interfaces (IXR-r6d)
   R3:1/1/c1/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R3-a:to-R2
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r3-a:to-R2
     fillColor:
       thresholds: *thresholds-operstate
   R3:1/1/c2/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R3-a:to-R5
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r3-a:to-R5
     fillColor:
       thresholds: *thresholds-operstate
   R3:1/1/c3/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R3-a:to-R4
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r3-a:to-R4
     fillColor:
       thresholds: *thresholds-operstate
   R3:1/1/c4/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R3-a:to-R1
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r3-a:to-R1
     fillColor:
       thresholds: *thresholds-operstate
 
   # R4 interfaces (SR-1)
   R4:1/1/c1/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R4:to-R2
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r4:to-R2
     fillColor:
       thresholds: *thresholds-operstate
   R4:1/1/c2/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R4:to-R5
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r4:to-R5
     fillColor:
       thresholds: *thresholds-operstate
   R4:1/1/c3/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R4:to-R3
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r4:to-R3
     fillColor:
       thresholds: *thresholds-operstate
 
   # R5 interfaces (SR-1se)
   R5:1/1/c1/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R5-a:to-R3
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r5-a:to-R3
     fillColor:
       thresholds: *thresholds-operstate
   R5:1/1/c2/1:
-    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R5-a:to-R4
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-r5-a:to-R4
     fillColor:
       thresholds: *thresholds-operstate
   R5:1/1/c3/1:
-    dataRef: vprn50_interface_oper_state:clab-srv6-flexalgo-R5-a:to-Client2
+    dataRef: vprn50_interface_oper_state:clab-srv6-flexalgo-r5-a:to-Client2
     fillColor:
       thresholds: *thresholds-operstate
