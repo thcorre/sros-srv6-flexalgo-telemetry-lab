@@ -9,15 +9,15 @@ cellIdPreamble: cell-
 cells:
   # R1 interfaces (IXR-e2c)
   R1:1/1/c1/1:
-    dataRef: gnmic_sros_if_oper_state_state_router_interface_oper_state:clab-srv6-flexalgo-R1:1/1/c1/1
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R1:1/1/c1/1
     fillColor:
       thresholds: *thresholds-operstate
   R1:1/1/c2/1:
-    dataRef: gnmic_sros_if_oper_state_state_router_interface_oper_state:clab-srv6-flexalgo-R1:1/1/c2/1
+    dataRef: router_interface_oper_state:clab-srv6-flexalgo-R1:1/1/c2/1
     fillColor:
       thresholds: *thresholds-operstate
   R1:1/1/c3/1:
-    dataRef: gnmic_sros_if_oper_state_state_router_interface_oper_state:clab-srv6-flexalgo-R1:1/1/c3/1
+    dataRef: vprn50_interface_oper_state:clab-srv6-flexalgo-R1:1/1/c3/1
     fillColor:
       thresholds: *thresholds-operstate
   
