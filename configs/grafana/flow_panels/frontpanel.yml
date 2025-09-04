@@ -13,11 +13,11 @@ cells:
     fillColor:
       thresholds: *thresholds-operstate
   R1:1/1/c2/1:
-    dataRef: sros_if_oper_state:r1:to-R3-a
+    dataRef: sros_if_oper_state:r1:to-R3
     fillColor:
       thresholds: *thresholds-operstate
   R1:1/1/c3/1:
-    dataRef: '0'
+    dataRef: sros_vprn_if_oper_state:r1:to-Client1
     fillColor:
       thresholds: *thresholds-operstate
   R2:1/1/c5/1:
