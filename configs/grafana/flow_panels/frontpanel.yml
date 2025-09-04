@@ -5,7 +5,7 @@ anchors:
       level: 0
     - color: "#4BDD33" # green
       level: 1
-
+cellIdPreamble: cell-
 cells:
   # Test with simple values first
   R1:1/1/c1/1:
@@ -13,7 +13,7 @@ cells:
     fillColor:
       thresholds: *thresholds-operstate
   R1:1/1/c2/1:
-    dataRef: '1'  
+    dataRef: sros_if_oper_state:r1:to-R3-a
     fillColor:
       thresholds: *thresholds-operstate
   R1:1/1/c3/1:
