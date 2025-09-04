@@ -5,7 +5,7 @@ anchors:
       level: 0
     - color: "#4BDD33" # green
       level: 1
-cellIdPreamble: cell-
+
 cells:
   # Test with simple values first
   R1:1/1/c1/1:
