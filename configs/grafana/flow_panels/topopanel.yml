@@ -44,12 +44,12 @@ cells:
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  spine1:e1-3:leaf3:e1-49:
-    dataRef: oper-state:spine1:e1-3
+  R2:1/1/c5/1:R3:1/1/c1/1:
+    dataRef: sros_if_oper_state:r2:to-R3
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:spine1:e1-3:leaf3:e1-49:
-    dataRef: spine1:e1-3:out
+  link_id:R2:1/1/c5/1:R3:1/1/c1/1:
+    dataRef: sros_if_stats:r2:to-R3:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
