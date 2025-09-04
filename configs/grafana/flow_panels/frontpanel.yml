@@ -9,7 +9,7 @@ cellIdPreamble: cell-
 cells:
   # Test with simple values first
   R1:1/1/c1/1:
-    dataRef: state_router_interface_oper_state:r1:to-R2
+    dataRef: sros_if_oper_state:r1:to-R2
     fillColor:
       thresholds: *thresholds-operstate
   R1:1/1/c2/1:
