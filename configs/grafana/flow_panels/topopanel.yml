@@ -1,190 +1,190 @@
 ---
 anchors:
   thresholds-operstate: &thresholds-operstate
-    - color: "#FF3154" # red
-      level: 0
-    - color: "#4BDD33" # green
-      level: 1
+  - color: red
+    level: 0
+  - color: green
+    level: 1
   thresholds-traffic: &thresholds-traffic
-    - color: "#bec8d2" # grey
-      level: 0
-    - color: "#4BDD33" # green
-      level: 199999
-    - color: "#FFFF00" # yellow
-      level: 500000
-    - color: "#FF8000" # orange
-      level: 1000000
-    - color: "#FF3154" # red
-      level: 5000000
+  - color: gray
+    level: 0
+  - color: green
+    level: 199999
+  - color: yellow
+    level: 500000
+  - color: orange
+    level: 1000000
+  - color: red
+    level: 5000000
   label-config: &label-config
     separator: replace
     units: bps
     decimalPoints: 1
     valueMappings:
-      - valueMax: 199999
-        text: ​
-      - valueMin: 200000
+    - valueMax: 199999
+      text: ​
+    - valueMin: 200000
 cellIdPreamble: cell-
 cells:
   R1:1/1/c1/1:R2:1/1/c7/1:
-    dataRef: sros_if_oper_state:r1:to-R2
+    dataRef: oper-state:R1:1/1/c1/1
     fillColor:
       thresholds: *thresholds-operstate
   link_id:R1:1/1/c1/1:R2:1/1/c7/1:
-    dataRef: sros_if_stats:r1:to-R2:out
+    dataRef: R1:1/1/c1/1:out
+    label: *label-config
+    strokeColor:
+      thresholds: *thresholds-traffic
+  R1:1/1/c2/1:R3:1/1/c4/1:
+    dataRef: oper-state:R1:1/1/c2/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  link_id:R1:1/1/c2/1:R3:1/1/c4/1:
+    dataRef: R1:1/1/c2/1:out
+    label: *label-config
+    strokeColor:
+      thresholds: *thresholds-traffic
+  R1:1/1/c3/1:client1:eth1:
+    dataRef: oper-state:R1:1/1/c3/1
+    fillColor:
+      thresholds: *thresholds-operstate
+  link_id:R1:1/1/c3/1:client1:eth1:
+    dataRef: R1:1/1/c3/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
   R2:1/1/c7/1:R1:1/1/c1/1:
-    dataRef: sros_if_oper_state:r2:to-R1
+    dataRef: oper-state:R2:1/1/c7/1
     fillColor:
       thresholds: *thresholds-operstate
   link_id:R2:1/1/c7/1:R1:1/1/c1/1:
-    dataRef: sros_if_stats:r2:to-R1:out
+    dataRef: R2:1/1/c7/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
   R2:1/1/c5/1:R3:1/1/c1/1:
-    dataRef: sros_if_oper_state:r2:to-R3
+    dataRef: oper-state:R2:1/1/c5/1
     fillColor:
       thresholds: *thresholds-operstate
   link_id:R2:1/1/c5/1:R3:1/1/c1/1:
-    dataRef: sros_if_stats:r2:to-R3:out
+    dataRef: R2:1/1/c5/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  spine2:e1-1:leaf1:e1-50:
-    dataRef: oper-state:spine2:e1-1
+  R2:1/1/c6/1:R4:1/1/c1/1:
+    dataRef: oper-state:R2:1/1/c6/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:spine2:e1-1:leaf1:e1-50:
-    dataRef: spine2:e1-1:out
+  link_id:R2:1/1/c6/1:R4:1/1/c1/1:
+    dataRef: R2:1/1/c6/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  spine2:e1-2:leaf2:e1-50:
-    dataRef: oper-state:spine2:e1-2
+  R3:1/1/c4/1:R1:1/1/c2/1:
+    dataRef: oper-state:R3:1/1/c4/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:spine2:e1-2:leaf2:e1-50:
-    dataRef: spine2:e1-2:out
+  link_id:R3:1/1/c4/1:R1:1/1/c2/1:
+    dataRef: R3:1/1/c4/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  spine2:e1-3:leaf3:e1-50:
-    dataRef: oper-state:spine2:e1-3
+  R3:1/1/c1/1:R2:1/1/c5/1:
+    dataRef: oper-state:R3:1/1/c1/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:spine2:e1-3:leaf3:e1-50:
-    dataRef: spine2:e1-3:out
+  link_id:R3:1/1/c1/1:R2:1/1/c5/1:
+    dataRef: R3:1/1/c1/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf1:e1-49:spine1:e1-1:
-    dataRef: oper-state:leaf1:e1-49
+  R3:1/1/c2/1:R5:1/1/c1/1:
+    dataRef: oper-state:R3:1/1/c2/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf1:e1-49:spine1:e1-1:
-    dataRef: leaf1:e1-49:out
+  link_id:R3:1/1/c2/1:R5:1/1/c1/1:
+    dataRef: R3:1/1/c2/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf1:e1-50:spine2:e1-1:
-    dataRef: oper-state:leaf1:e1-50
+  R3:1/1/c3/1:R4:1/1/c3/1:
+    dataRef: oper-state:R3:1/1/c3/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf1:e1-50:spine2:e1-1:
-    dataRef: leaf1:e1-50:out
+  link_id:R3:1/1/c3/1:R4:1/1/c3/1:
+    dataRef: R3:1/1/c3/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf1:e1-1:client1:eth1:
-    dataRef: oper-state:leaf1:e1-1
+  R4:1/1/c1/1:R2:1/1/c6/1:
+    dataRef: oper-state:R4:1/1/c1/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf1:e1-1:client1:eth1:
-    dataRef: leaf1:e1-1:out
+  link_id:R4:1/1/c1/1:R2:1/1/c6/1:
+    dataRef: R4:1/1/c1/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf2:e1-49:spine1:e1-2:
-    dataRef: oper-state:leaf2:e1-49
+  R4:1/1/c2/1:R5:1/1/c2/1:
+    dataRef: oper-state:R4:1/1/c2/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf2:e1-49:spine1:e1-2:
-    dataRef: leaf2:e1-49:out
+  link_id:R4:1/1/c2/1:R5:1/1/c2/1:
+    dataRef: R4:1/1/c2/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf2:e1-50:spine2:e1-2:
-    dataRef: oper-state:leaf2:e1-50
+  R4:1/1/c3/1:R3:1/1/c3/1:
+    dataRef: oper-state:R4:1/1/c3/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf2:e1-50:spine2:e1-2:
-    dataRef: leaf2:e1-50:out
+  link_id:R4:1/1/c3/1:R3:1/1/c3/1:
+    dataRef: R4:1/1/c3/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf2:e1-1:client2:eth1:
-    dataRef: oper-state:leaf2:e1-1
+  R5:1/1/c1/1:R3:1/1/c2/1:
+    dataRef: oper-state:R5:1/1/c1/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf2:e1-1:client2:eth1:
-    dataRef: leaf2:e1-1:out
+  link_id:R5:1/1/c1/1:R3:1/1/c2/1:
+    dataRef: R5:1/1/c1/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf3:e1-49:spine1:e1-3:
-    dataRef: oper-state:leaf3:e1-49
+  R5:1/1/c2/1:R4:1/1/c2/1:
+    dataRef: oper-state:R5:1/1/c2/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf3:e1-49:spine1:e1-3:
-    dataRef: leaf3:e1-49:out
+  link_id:R5:1/1/c2/1:R4:1/1/c2/1:
+    dataRef: R5:1/1/c2/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf3:e1-50:spine2:e1-3:
-    dataRef: oper-state:leaf3:e1-50
+  R5:1/1/c3/1:client2:eth1:
+    dataRef: oper-state:R5:1/1/c3/1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:leaf3:e1-50:spine2:e1-3:
-    dataRef: leaf3:e1-50:out
+  link_id:R5:1/1/c3/1:client2:eth1:
+    dataRef: R5:1/1/c3/1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  leaf3:e1-1:client3:eth1:
-    dataRef: oper-state:leaf3:e1-1
-    fillColor:
-      thresholds: *thresholds-operstate
-  link_id:leaf3:e1-1:client3:eth1:
-    dataRef: leaf3:e1-1:out
-    label: *label-config
-    strokeColor:
-      thresholds: *thresholds-traffic
-  client1:eth1:leaf1:e1-1:
+  client1:eth1:R1:1/1/c3/1:
     dataRef: oper-state:client1:eth1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:client1:eth1:leaf1:e1-1:
-    dataRef: leaf1:e1-1:in
+  link_id:client1:eth1:R1:1/1/c3/1:
+    dataRef: client1:eth1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  client2:eth1:leaf2:e1-1:
+  client2:eth1:R5:1/1/c3/1:
     dataRef: oper-state:client2:eth1
     fillColor:
       thresholds: *thresholds-operstate
-  link_id:client2:eth1:leaf2:e1-1:
-    dataRef: leaf2:e1-1:in
-    label: *label-config
-    strokeColor:
-      thresholds: *thresholds-traffic
-  client3:eth1:leaf3:e1-1:
-    dataRef: oper-state:client3:eth1
-    fillColor:
-      thresholds: *thresholds-operstate
-  link_id:client3:eth1:leaf3:e1-1:
-    dataRef: leaf3:e1-1:in
+  link_id:client2:eth1:R5:1/1/c3/1:
+    dataRef: client2:eth1:out
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
