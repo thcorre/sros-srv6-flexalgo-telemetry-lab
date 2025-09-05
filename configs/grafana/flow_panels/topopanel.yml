@@ -44,10 +44,6 @@ cells:
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  R1:1/1/c3/1:Client1:eth1:
-    dataRef: oper-state:r1:1/1/c3/1
-    fillColor:
-      thresholds: *thresholds-operstate
   R2:1/1/c7/1:R1:1/1/c1/1:
     dataRef: oper-state:r2:1/1/c7/1
     fillColor:
@@ -156,15 +152,6 @@ cells:
     label: *label-config
     strokeColor:
       thresholds: *thresholds-traffic
-  R5:1/1/c3/1:Client2:eth1:
-    dataRef: oper-state:r5-a:1/1/c3/1
-    fillColor:
-      thresholds: *thresholds-operstate
-  link_id:R5:1/1/c3/1:Client2:eth1:
-    dataRef: r5-a:1/1/c3/1:out
-    label: *label-config
-    strokeColor:
-      thresholds: *thresholds-traffic
   R1:1/1/c3/1:Client1:eth1:
     dataRef: oper-state:r1:1/1/c3/1
     fillColor:
@@ -183,6 +170,11 @@ cells:
     dataRef: oper-state:r5-a:1/1/c3/1
     fillColor:
       thresholds: *thresholds-operstate
+  link_id:R5:1/1/c3/1:Client2:eth1:
+    dataRef: r5-a:1/1/c3/1:out
+    label: *label-config
+    strokeColor:
+      thresholds: *thresholds-traffic
   link_id:Client2:eth1:R5:1/1/c3/1:
     dataRef: r5-a:1/1/c3/1:in
     label: *label-config
