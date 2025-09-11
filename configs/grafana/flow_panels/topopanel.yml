@@ -20,10 +20,6 @@ anchors:
     separator: replace
     units: bps
     decimalPoints: 1
-    valueMappings:
-    - valueMax: 199999
-      text: ​
-    - valueMin: 200000
 cellIdPreamble: cell-
 cells:
   R1:1/1/c1/1:R2:1/1/c7/1:
