@@ -20,7 +20,7 @@ anchors:
     separator: replace
     units: bps
     decimalPoints: 1
-  label-config: &delay-label-config
+  delay-label-config: &delay-label-config
     separator: replace
     units: us
     decimalPoints: 1
