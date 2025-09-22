@@ -1,93 +1,70 @@
 username: admin
-password: admin
+password: NokiaSros1!
 insecure: true
-#port: 57400
-timeout: 10s
-#skip-verify: true
-encoding: bytes 
-#endoding: json_ietf
-debug: true
+log: true
+
+common_sros_subscriptions: &common_sros_subs
+  insecure: true
+  password: NokiaSros1!
+  subscriptions:
+      - sros-if-stats
+      - sros-bgp-stats
+      - sros-service-stats
+      - sros-if-dynamic-delay-stats
+      - sros-route-table-unicast-ipv6-stats
+      - sros-system-performance
 
 targets:
-  clab-srv6-flexalgo-R1:
-  clab-srv6-flexalgo-R2:
-  clab-srv6-flexalgo-R3:
-  clab-srv6-flexalgo-R4:
-  clab-srv6-flexalgo-R5:
+  R1: &common_sros_subs
+  R2: &common_sros_subs
+  R3-a: &common_sros_subs
+  R4: &common_sros_subs
+  R5-a: &common_sros_subs
 
 subscriptions:
-  sros_if_stats:
+  ## SROS ###
+  sros-if-stats:
     paths:
-      - /state/router[router-name=Base]/interface[interface-name=*]/statistics
+      - /state/port[port-id=*]/oper-state
+      - /state/port[port-id=*]/ethernet/statistics
     mode: stream
     stream-mode: sample
-    sample-interval: 5s
+    sample-interval: 1s
 
-  sros_if_oper_state:
-    paths:
-      - /state/router[router-name=*]/interface[interface-name=*]/oper-state
-    mode: stream
-    stream-mode: sample
-    sample-interval: 5s
-
-  sros_vprn_if_oper_state:
-    paths:
-      - /state/service/vprn[service-name=50]/interface[interface-name=*]/oper-state
-    mode: stream
-    stream-mode: sample
-    sample-interval: 5s
-
-  sros_vprn_if_stats:
-    paths:
-      - /state/service/vprn[service-name=50]/interface[interface-name=*]/statistics
-    mode: stream
-    stream-mode: sample
-    sample-interval: 5s
-
-  sros_if_dyn_delay_stats:
+  sros-if-dynamic-delay-stats:
     paths:
       - /state/test-oam/link-measurement/router[router-instance=Base]/interface[interface-name=*]/last-reported-delay
     mode: stream
     stream-mode: sample
     sample-interval: 5s
 
-  sros_cpu:
+  sros-system-performance:
     paths:
       - /state/system/cpu[sample-period=60]/summary/usage/
-    mode: stream
-    stream-mode: sample
-    sample-interval: 5s
-
-  sros_mem:
-    paths:
       - /state/system/memory-pools/summary/
     mode: stream
     stream-mode: sample
     sample-interval: 5s
 
-  sros_route_table_unicast_ipv6_stats:
+  sros-service-stats:
+    paths:
+      - /state/service/vpls[service-name=*]/oper-state
+      - /state/service/vprn[service-name=*]/oper-state
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s
+
+  sros-route-table-unicast-ipv6-stats:
     paths:
       - /state/router[router-name=Base]/route-table/unicast/ipv6
     mode: stream
     stream-mode: sample
     sample-interval: 5s
 
-  sros_bgp_peer_stats:
+  sros-bgp-stats:
     paths:
       - /state/router[router-name=Base]/bgp/statistics/peers
-    mode: stream
-    stream-mode: sample
-    sample-interval: 5s
-
-  sros_bgp_vpn_ipv4_routes:
-    paths:
       - /state/router[router-name=Base]/bgp/statistics/routes-per-family/vpn-ipv4/remote-active-routes
-    mode: stream
-    stream-mode: sample
-    sample-interval: 5s
-
-  sros_bgp_vpn_ipv6_routes:
-    paths:
       - /state/router[router-name=Base]/bgp/statistics/routes-per-family/vpn-ipv6/remote-active-routes
     mode: stream
     stream-mode: sample
@@ -96,66 +73,51 @@ subscriptions:
 outputs:
   prom:
     type: prometheus
-    path: /metrics
-    metric-prefix: gnmic
-    append-subscription-name: true
-    # expiration: 60s
-    debug: false
-    export-timestamps: true
+    listen: gnmic:9804
     event-processors:
-      - trim-prefixes
-      - up-down-map
-
-#  stdout:
-#    type: file
-#    file-type: stdout
-#    format: event
-#    event-processors:
-#      - trim-prefixes
+     - trim-prefixes
+     - rename-port-sros
+#     - rename-port-value-sros
+     - oper-state-to-int
 
 processors:
   trim-prefixes:
     event-strings:
       value-names:
-        - ".*"
+        - "^/state/.*"
       transforms:
         - trim-prefix:
             apply-on: "name"
-            prefix: "/state/router[router-name=Base]/interface[interface-name=*]/statistics"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/service/vprn[service-name=50]/interface[interface-name=*]/statistics"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/test-oam/link-measurement/router[router-instance=Base]/interface[interface-name=*]/last-reported-delay"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/system/cpu[sample-period=60]/summary/usage/"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/system/memory-pools/summary/"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/router[router-name=Base]/route-table/unicast/ipv6"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/router[router-name=Base]/bgp/statistics/peers"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/router[router-name=Base]/bgp/statistics/routes-per-family/vpn-ipv4/remote-active-routes"
-        - trim-prefix:
-            apply-on: "name"
-            prefix: "/state/router[router-name=Base]/bgp/statistics/routes-per-family/vpn-ipv6/remote-active-routes"
-  up-down-map:
+            prefix: "/state/"
+
+  oper-state-to-int:
     event-strings:
       value-names:
-        - oper-state
+        - ".*"
       transforms:
         - replace:
             apply-on: "value"
             old: "up"
             new: "1"
-        - replace:
+        - replace: 
             apply-on: "value"
             old: "down"
-            new: "0"
+            new: "0"   
+  rename-port-sros:
+    event-strings:
+      tag-names:
+        - "^port_port-id"
+      transforms:
+        - replace:
+            apply-on: "name"
+            old: "port_port-id"
+            new: "interface_name"
+  rename-port-value-sros:
+    event-strings:
+      tag-names:
+        - "^interface_name"
+      transforms:
+        - replace:
+            apply-on: "value"
+            old: ".*/c(\\d+)(/\\d+)?"
+            new: "eth$1"

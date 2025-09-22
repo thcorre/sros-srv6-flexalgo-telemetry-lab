@@ -1,55 +1,76 @@
 name: srv6-flexalgo
+prefix: ""
 
 mgmt:
   network: srv6-flexalgo
+  ipv4-subnet: 172.90.90.0/24
 
 topology:
 
   kinds:
-    nokia_sros:
-      image: registry.srlinux.dev/pub/vr-sros:23.10.R6
+    nokia_srsim:
+      image: registry.srlinux.dev/pub/nokia_srsim:25.7.R1
       license: license-sros.txt
     linux:
       image: ghcr.io/hellt/network-multitool
 
   nodes:
     R1:
-      kind: nokia_sros
+      kind: nokia_srsim
+      mgmt-ipv4: 172.90.90.11
       type: ixr-e2c
-      startup-config: configs/R1/R1.cfg
+      startup-config: configs/R1/R1.partial.cfg
 
     R2:
-      kind: nokia_sros
+      kind: nokia_srsim
+      mgmt-ipv4: 172.90.90.12
       type: ixr-e2
-      startup-config: configs/R2/R2.cfg
+      startup-config: configs/R2/R2.partial.cfg
 
     R3:
-      kind: nokia_sros
-      type: >-
-        cp: cpu=2 ram=4 chassis=ixr-r6d slot=A card=cpm-ixr-r6d/iom-ixr-r6d ___
-        lc: cpu=4 ram=6 chassis=ixr-r6d slot=1 card=cpm-ixr-r6d/iom-ixr-r6d mda/1=m5-100g-qsfp28
-      startup-config: configs/R3/R3.cfg
+      kind: nokia_srsim
+      mgmt-ipv4: 172.90.90.13
+      type: ixr-r6d
+      components:
+        - slot: A # containers will be attached to this Linux NS
+        - slot: 1
+          type: cpm-ixr-r6d/iom-ixr-r6d # equivalent to override NOKIA_SROS_CARD
+          env:
+            NOKIA_SROS_SFM: cpm-ixr-r6d/iom-ixr-r6d
+            NOKIA_SROS_MDA_1: m5-100g-qsfp28
+      startup-config: configs/R3/R3.partial.cfg
 
     R4:
-      kind: nokia_sros
+      kind: nokia_srsim
+      mgmt-ipv4: 172.90.90.14
       type: sr-1
-      startup-config: configs/R4/R4.cfg
+      env:
+        NOKIA_SROS_MDA_1: me12-100gb-qsfp28
+      startup-config: configs/R4/R4.partial.cfg
 
     R5:
-      kind: nokia_sros
-      type: >-
-        cp: cpu=2 ram=4 chassis=sr-1se slot=A card=cpm-1se ___
-        lc: cpu=4 ram=6 max_nics=36 chassis=sr-1se slot=1 card=imm36-800g-qsfpdd mda/1=ms36-800g-qsfpdd
-      startup-config: configs/R5/R5.cfg
+      kind: nokia_srsim
+      mgmt-ipv4: 172.90.90.15
+      type: sr-1se
+      components:
+        - slot: A
+          type: cpm-sr-1se
+        - slot: 1
+          env:
+            NOKIA_SROS_CARD: imm36-800g-qsfpdd
+            NOKIA_SROS_MDA_1: ms36-800g-qsfpdd
+      startup-config: configs/R5/R5.partial.cfg
 
     client1:
       kind: linux
-      exec: 
+      mgmt-ipv4: 172.90.90.21
+      exec:
         - ip address add 172.17.11.2/30 dev eth1
         - ip route add 172.17.44.0/30 via 172.17.11.1
 
     client2:
       kind: linux
+      mgmt-ipv4: 172.90.90.22
       exec:
         - ip address add 172.17.44.2/30 dev eth1
         - ip route add 172.17.11.0/30 via 172.17.44.1
@@ -57,49 +78,56 @@ topology:
     ### TELEMETRY STACK ###
     gnmic:
       kind: linux
-      image: ghcr.io/openconfig/gnmic:0.38.2
+      mgmt-ipv4: 172.90.90.41
+      image: ghcr.io/openconfig/gnmic:0.41.0
       binds:
         - ./configs/gnmic/gnmic-config.yaml:/app/gnmic-config.yaml:ro
-      cmd: '--config /app/gnmic-config.yaml --log subscribe'
+      cmd: --config /app/gnmic-config.yaml --log subscribe
       ports:
         - 9804:9804
 
     prometheus:
       kind: linux
-      image: prom/prometheus:v2.54.1
+      mgmt-ipv4: 172.90.90.42
+      image: quay.io/prometheus/prometheus:v2.54.1
       binds:
         - ./configs/prometheus:/etc/prometheus/
       ports:
         - 9090:9090
-      cmd: '--config.file=/etc/prometheus/prometheus.yaml --storage.tsdb.path=/prometheus --web.console.libraries=/usr/share/prometheus/console_libraries --web.console.templates=/usr/share/prometheus/consoles --log.level=debug'
+      cmd: --config.file=/etc/prometheus/prometheus.yaml
+        --storage.tsdb.path=/prometheus
+        --web.console.libraries=/usr/share/prometheus/console_libraries
+        --web.console.templates=/usr/share/prometheus/consoles --log.level=debug
 
     grafana:
       kind: linux
-      image: grafana/grafana:11.2.0
+      mgmt-ipv4: 172.90.90.43
+      image: grafana/grafana:11.6.3
       binds:
-        - configs/grafana/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
-        - configs/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
-        - configs/grafana/dashboards/:/var/lib/grafana/dashboards
-      ports: 
+        - configs/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+        - configs/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+        - configs/grafana/dashboards:/var/lib/grafana/dashboards
+      ports:
         - 3000:3000
+      exec:
+        - bash /grafana-install.sh
       env:
         GF_INSTALL_PLUGINS: andrewbmchugh-flow-panel
-        # env vars to enable anonymous access
-        GF_ORG_ROLE: "Admin"
-        GF_ORG_NAME: "Main Org"
+        GF_ORG_ROLE: Admin
+        GF_ORG_NAME: Main Org
         GF_AUTH_ANONYMOUS_ENABLED: "true"
+        GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
         GF_AUTH_ANONYMOUS: "true"
-        GF_SECURITY_ALLOW_EMBEDDING: "true"
-        GF_DASHBOARDS_MIN_REFRESH_INTERVAL: 2s
+        GF_AUTH_OAUTH_AUTO_LOGIN: "true"
       group: "10"
 
   links:
-    - endpoints: ["R1:eth1", "R2:eth7"]
-    - endpoints: ["R1:eth2", "R3:eth4"]
-    - endpoints: ["R2:eth5", "R3:eth1"]
-    - endpoints: ["R2:eth6", "R4:eth1"]
-    - endpoints: ["R3:eth2", "R5:eth1"]
-    - endpoints: ["R4:eth2", "R5:eth2"]
-    - endpoints: ["R3:eth3", "R4:eth3"]
-    - endpoints: ["client1:eth1", "R1:eth3"]
-    - endpoints: ["client2:eth1", "R5:eth3"]
+    - endpoints: [ R1:e1-1-c1-1, R2:e1-1-c7-1 ]
+    - endpoints: [ R1:e1-1-c2-1, R3:e1-1-c4-1 ]
+    - endpoints: [ R2:e1-1-c5-1, R3:e1-1-c1-1 ]
+    - endpoints: [ R2:e1-1-c6-1, R4:e1-1-c1-1 ]
+    - endpoints: [ R3:e1-1-c2-1, R5:e1-1-c1-1 ]
+    - endpoints: [ R4:e1-1-c2-1, R5:e1-1-c2-1 ]
+    - endpoints: [ R3:e1-1-c3-1, R4:e1-1-c3-1 ]
+    - endpoints: [ client1:eth1, R1:e1-1-c3-1 ]
+    - endpoints: [ client2:eth1, R5:e1-1-c3-1 ]

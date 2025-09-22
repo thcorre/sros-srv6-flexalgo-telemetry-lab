@@ -24,15 +24,20 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 2,
+  "id": 1,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
       "description": "Physical layout",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 18,
         "w": 12,
@@ -45,9 +50,9 @@
         "animationsEnabled": true,
         "debuggingCtr": {
           "colorsCtr": 1,
-          "dataCtr": 1,
+          "dataCtr": 2,
           "displaySvgCtr": 0,
-          "mappingsCtr": 1,
+          "mappingsCtr": 2,
           "timingsCtr": 0
         },
         "highlighterEnabled": true,
@@ -60,7 +65,7 @@
         "timeSliderEnabled": true,
         "timeSliderMode": "local"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "1.18.5",
       "targets": [
         {
           "datasource": {
@@ -69,23 +74,11 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "gnmic_sros_if_oper_state_state_router_interface_oper_state",
+          "expr": "port_oper_state",
           "hide": false,
-          "legendFormat": "sros_if_oper_state:{{source}}:{{interface_interface_name}}",
+          "legendFormat": "oper-state:{{source}}:{{interface_name}}",
           "range": true,
           "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "expr": "gnmic_sros_vprn_if_oper_state_state_service_vprn_interface_oper_state",
-          "hide": false,
-          "legendFormat": "sros_vprn_if_oper_state:{{source}}:{{interface_interface_name}}",
-          "range": true,
-          "refId": "G"
         }
       ],
       "title": "WAN nodes",
@@ -94,6 +87,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -110,6 +104,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 70,
             "gradientMode": "none",
@@ -140,8 +135,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -214,24 +208,37 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.19",
+      "pluginVersion": "11.6.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "rate(gnmic_sros_if_stats_state_router_interface_statistics_ip_in_octets{source=~\"$NE\",interface_name=~\"$Interface\"}[1m])*8",
+          "expr": "rate(port_ethernet_statistics_in_octets{source=~\"$NE\",interface_name=~\"$Interface\"}[1m])*8",
           "interval": "",
           "legendFormat": "{{source}} - {{interface_interface_name}} IN",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "-rate(gnmic_sros_if_stats_state_router_interface_statistics_ip_out_octets{source=~\"$NE\",interface_name=~\"$Interface\"}[1m])*8",
+          "expr": "-rate(port_ethernet_statistics_out_octets{source=~\"$NE\",interface_name=~\"$Interface\"}[1m])*8",
           "interval": "",
           "legendFormat": "{{source}} - {{interface_interface_name}} OUT",
+          "range": true,
           "refId": "B"
         }
       ],
@@ -241,10 +248,15 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
       "description": "vprn_using_flex-algo_128_srv6",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 18,
         "w": 12,
@@ -257,60 +269,80 @@
         "animationsEnabled": true,
         "debuggingCtr": {
           "colorsCtr": 0,
-          "dataCtr": 0,
-          "displaySvgCtr": 0,
-          "mappingsCtr": 0,
+          "dataCtr": 3,
+          "displaySvgCtr": 1,
+          "mappingsCtr": 4,
           "timingsCtr": 0
         },
         "highlighterEnabled": true,
         "highlighterSelection": "",
         "panZoomEnabled": true,
-        "panelConfig": "https://raw.githubusercontent.com/andymchugh/andrewbmchugh-flow-panel/main/examples/panelConfig1.yaml",
-        "siteConfig": "",
-        "svg": "https://raw.githubusercontent.com/andymchugh/andrewbmchugh-flow-panel/main/examples/ambiThemeSvg1.svg",
+        "panelConfig": "https://raw.githubusercontent.com/thcorre/sros-srv6-flexalgo-telemetry-lab/refs/heads/main/configs/grafana/flow_panels/topopanel.yml",
+        "siteConfig": "https://raw.githubusercontent.com/thcorre/sros-srv6-flexalgo-telemetry-lab/refs/heads/main/configs/grafana/flow_panels/siteconfig.yml",
+        "svg": "https://raw.githubusercontent.com/thcorre/sros-srv6-flexalgo-telemetry-lab/refs/heads/main/configs/grafana/flow_panels/topology.svg",
         "testDataEnabled": true,
         "timeSliderEnabled": true,
         "timeSliderMode": "local"
       },
-      "pluginVersion": "7.3.5",
+      "pluginVersion": "1.18.5",
       "targets": [
         {
-          "exemplar": true,
-          "expr": "rate(gnmic_sros_if_stats_state_router_interface_statistics_ip_out_octets[30s])*8",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(port_ethernet_statistics_in_octets[30s])*8",
+          "instant": false,
           "interval": "",
-          "legendFormat": "{{source}}:{{interface_interface_name}}:ip:out",
+          "legendFormat": "{{source}}:{{interface_name}}:out",
+          "range": true,
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "rate(gnmic_sros_if_stats_state_router_interface_statistics_ip_in_octets[30s])*8",
+          "expr": "rate(port_ethernet_statistics_in_octets[30s])*8",
           "interval": "",
-          "legendFormat": "{{source}}:{{inerface_interface_name}}:ip:in",
+          "legendFormat": "{{source}}:{{interface_name}}:in",
+          "range": true,
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "rate(gnmic_sros_vprn_if_stats_state_service_vprn_interface_statistics_ip_out_octets[30s])*8",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{source}}:{{inerface_interface_name}}:vprn:out",
-          "refId": "C"
-        },
-        {
-          "exemplar": true,
-          "expr": "rate(gnmic_sros_vprn_if_stats_state_service_vprn_interface_statistics_ip_in_octets[30s])*8",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{source}}:{{inerface_interface_name}}:vprn:in",
-          "refId": "D"
-        },
-        {
-          "exemplar": true,
-          "expr": "gnmic_sros_if_dyn_delay_stats_state_test_oam_link_measurement_router_interface_last_reported_delay",
+          "expr": "test_oam_link_measurement_router_interface_last_reported_delay",
           "hide": false,
           "interval": "",
           "legendFormat": "{{source}}:{{interface_interface_name}}:delay",
+          "range": true,
           "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "port_oper_state",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "oper-state:{{source}}:{{interface_name}}",
+          "range": true,
+          "refId": "F",
+          "useBackend": false
         }
       ],
       "title": "VPRN 50 (Transport: SRv6, FlexAlgo 128 / Service: EVPN IFL) - Links Bandwidth & Delay",
@@ -319,6 +351,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -326,23 +359,24 @@
         "defaults": {
           "color": {
             "fixedColor": "yellow",
-            "mode": "fixed"
+            "mode": "continuous-BlYlRd"
           },
           "custom": {
             "align": "auto",
             "cellOptions": {
-              "type": "auto"
+              "type": "color-text",
+              "wrapText": false
             },
             "filterable": true,
             "inspect": false
           },
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -351,7 +385,57 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 528
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Source PE"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SRv6 route"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "text",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 18,
@@ -365,6 +449,7 @@
         "cellHeight": "sm",
         "footer": {
           "countRows": false,
+          "enablePagination": true,
           "fields": "",
           "reducer": [
             "sum"
@@ -379,37 +464,31 @@
           }
         ]
       },
-      "pluginVersion": "10.4.19",
+      "pluginVersion": "11.6.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "exemplar": true,
-          "expr": "gnmic_sros_route_table_unicast_ipv6_stats_state_router_route_table_unicast_ipv6_route_nexthop_metric{route_ipv6_prefix=~\"c128.*/64\"} and gnmic_sros_route_table_unicast_ipv6_stats_state_router_route_table_unicast_ipv6_route_nexthop_metric != 0",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "router_route_table_unicast_ipv6_route_nexthop_metric{route_ipv6_prefix=~\"c128.*/64\"} and router_route_table_unicast_ipv6_route_nexthop_metric != 0",
           "format": "table",
-          "instant": false,
+          "instant": true,
           "interval": "",
           "legendFormat": "{{source}}, netIns={{route_ipv6_prefix}}, {{nexthop_nexthop_ip}}",
+          "range": false,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "gnmic_srl_bgp_stats_total_active_routes{network_instance_name=~\"$network_instance\",source=~\"$NE\"}",
-          "hide": true,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{source}}, netIns={{network_instance_name}}, Total Active Routes",
-          "refId": "B"
         }
       ],
       "title": "SRv6 FlexAlgo128 Locator Routes Metric (IPv6 route table)",
       "transformations": [
         {
+          "filter": {
+            "id": "byRefId",
+            "options": ""
+          },
           "id": "organize",
           "options": {
             "excludeByName": {
@@ -421,6 +500,7 @@
               "router_router_name": true,
               "subscription_name": true
             },
+            "includeByName": {},
             "indexByName": {
               "Time": 0,
               "Value #A": 9,
@@ -434,6 +514,7 @@
               "subscription_name": 8
             },
             "renameByName": {
+              "Time": "",
               "Value #A": "Metric",
               "nexthop_nexthop_index": "",
               "route_ipv6_prefix": "SRv6 route",
@@ -447,6 +528,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -462,8 +544,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -497,34 +578,22 @@
         "sizing": "auto",
         "text": {}
       },
-      "pluginVersion": "10.4.19",
+      "pluginVersion": "11.6.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "gnmic_sros_bgp_peer_stats_state_router_bgp_statistics_peers{router_router_name=~\"$network_instance\",source=~\"$NE\"}",
+          "expr": "router_bgp_statistics_peers{router_router_name=~\"$network_instance\",source=~\"$NE\"}",
           "format": "time_series",
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{source}}",
           "refId": "A"
-        },
-        {
-          "exemplar": true,
-          "expr": "gnmic_srl_bgp_stats_total_peers{network_instance_name=~\"$network_instance\",source=~\"$NE\"}",
-          "hide": true,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{source}}, netIns={{network_instance_name}},  Total Peers #",
-          "refId": "B"
-        },
-        {
-          "expr": "gnmic_srl_bgp_stats_disabled_peers{network_instance_name=\"default\",source=~\"$NE\"}",
-          "hide": true,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{source}}, netIns={{network_instance_name}}, Disabled Peers #",
-          "refId": "C"
         }
       ],
       "title": "Total BGP Peers #",
@@ -533,6 +602,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -543,12 +613,12 @@
             "mode": "continuous-BlPu"
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -568,7 +638,13 @@
       "id": 8,
       "options": {
         "displayMode": "gradient",
-        "maxVizHeight": 300,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 69,
         "minVizHeight": 10,
         "minVizWidth": 0,
         "namePlacement": "auto",
@@ -585,23 +661,21 @@
         "text": {},
         "valueMode": "color"
       },
-      "pluginVersion": "10.4.19",
+      "pluginVersion": "11.6.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "gnmic_sros_bgp_vpn_ipv4_routes_state_router_bgp_statistics_routes_per_family_vpn_ipv4_remote_active_routes{router_router_name=~\"$network_instance\",source=~\"$NE\"}",
+          "expr": "router_bgp_statistics_routes_per_family_vpn_ipv4_remote_active_routes{router_router_name=~\"$network_instance\",source=~\"$NE\"}",
           "format": "time_series",
           "instant": true,
           "interval": "",
           "legendFormat": "{{source}}, Active Routes",
           "refId": "A"
-        },
-        {
-          "expr": "gnmic_srl_ipv4_routes_total_routes{network_instance_name=~\"$network_instance\",source=~\"$NE\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "{{source}}, netIns={{network_instance_name}}, Total Routes",
-          "refId": "B"
         }
       ],
       "title": "BGP VPN IPv4 Routing Stats",
@@ -610,6 +684,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -620,12 +695,12 @@
             "mode": "continuous-BlPu"
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -645,6 +720,12 @@
       "id": 9,
       "options": {
         "displayMode": "gradient",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
         "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
@@ -662,30 +743,21 @@
         "text": {},
         "valueMode": "color"
       },
-      "pluginVersion": "10.4.19",
+      "pluginVersion": "11.6.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "gnmic_sros_bgp_vpn_ipv6_routes_state_router_bgp_statistics_routes_per_family_vpn_ipv6_remote_active_routes{router_router_name=\"Base\",source=~\"$NE\"}",
+          "expr": "router_bgp_statistics_routes_per_family_vpn_ipv6_remote_active_routes{router_router_name=\"Base\",source=~\"$NE\"}",
           "format": "time_series",
           "instant": false,
           "interval": "",
           "legendFormat": "{{source}} Active Routes",
           "refId": "A"
-        },
-        {
-          "expr": "gnmic_srl_ipv6_routes_total_routes{network_instance_name=\"default\",source=~\"$NE\"}",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{source}} Total Routes",
-          "refId": "B"
-        },
-        {
-          "expr": "gnmic_srl_ipv6_routes_active_routes_with_ecmp{network_instance_name=\"default\",source=~\"$NE\"}",
-          "instant": false,
-          "interval": "",
-          "legendFormat": "{{source}} Active ECMP Routes",
-          "refId": "C"
         }
       ],
       "title": "BGP VPN IPv6 Routing Stats",
@@ -694,6 +766,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -709,6 +782,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -741,8 +815,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -752,7 +825,32 @@
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "r5-a Total Instant"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 9,
@@ -773,15 +871,21 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.19",
+      "pluginVersion": "11.6.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "gnmic_sros_cpu_state_system_cpu_summary_usage_cpu_usage{source=~\"$NE\"}",
+          "expr": "system_cpu_summary_usage_cpu_usage{source=~\"$NE\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "{{source}} Total Instant",
@@ -794,6 +898,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -810,6 +915,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 60,
             "gradientMode": "opacity",
@@ -841,8 +947,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -852,7 +957,32 @@
           },
           "unit": "decbytes"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "r3-a free mem"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 9,
@@ -872,24 +1002,37 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.19",
+      "pluginVersion": "11.6.3",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "gnmic_sros_mem_total_in_use{source=~\"$NE\"}",
+          "expr": "system_memory_pools_summary_total_in_use{source=~\"$NE\"}",
           "interval": "",
           "legendFormat": "{{source}} free mem",
+          "range": true,
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "gnmic_sros_mem_available_memory{source=~\"$NE\"}",
+          "expr": "system_memory_pools_summary_available_memory{source=~\"$NE\"}",
           "interval": "",
           "legendFormat": "{{source}} physical mem",
+          "range": true,
           "refId": "C"
         }
       ],
@@ -898,15 +1041,15 @@
       "type": "timeseries"
     }
   ],
+  "preload": false,
   "refresh": "5s",
-  "schemaVersion": 39,
+  "schemaVersion": 41,
   "tags": [],
   "templating": {
     "list": [
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
           "text": [
             "All"
           ],
@@ -919,9 +1062,7 @@
           "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(source)",
-        "hide": 0,
         "includeAll": true,
-        "label": "",
         "multi": true,
         "name": "NE",
         "options": [],
@@ -931,17 +1072,12 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
           "text": [
             "All"
           ],
@@ -954,9 +1090,7 @@
           "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(interface_name)",
-        "hide": 0,
         "includeAll": true,
-        "label": "",
         "multi": true,
         "name": "Interface",
         "options": [],
@@ -966,17 +1100,12 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
           "text": [
             "All"
           ],
@@ -989,9 +1118,7 @@
           "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(network_instance_name)",
-        "hide": 0,
         "includeAll": true,
-        "label": "",
         "multi": true,
         "name": "network_instance",
         "options": [],
@@ -1001,12 +1128,8 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       }
     ]
   },
@@ -1018,6 +1141,5 @@
   "timezone": "",
   "title": "SRv6 FlexAlgo Telemetry (Nokia SR OS)",
   "uid": "EggjX4LMk",
-  "version": 1,
-  "weekStart": ""
+  "version": 1
 }
