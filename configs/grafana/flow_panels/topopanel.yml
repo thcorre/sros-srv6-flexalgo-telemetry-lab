@@ -36,7 +36,7 @@ cells:
     strokeColor:
       thresholds: *thresholds-traffic
   delay:R1:1/1/c1/1:R2:1/1/c7/1:
-    dataRef: r1:1/1/c1/1:delay
+    dataRef: r1:to-R2:delay
     label: *delay-label-config
   R1:1/1/c2/1:R3:1/1/c4/1:
     dataRef: oper-state:r1:1/1/c2/1
