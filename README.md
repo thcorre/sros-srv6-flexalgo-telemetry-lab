@@ -80,8 +80,8 @@ Using Grafana dashboard, it is possible to get direct correlation between the su
 ## Requirements
 
 To deploy this lab you need:
-1. a server with Docker and [containerlab](https://containerlab.dev/) (0.57.5 version used at time of writing).
-2. [nokia_sros](https://containerlab.dev/manual/kinds/vr-sros/) 23.10.R1+ image (23.10.R6 version used at time of writing) and a valid license file.
+1. a server with Docker and [containerlab](https://containerlab.dev/) (0.69.3 version used at time of writing, a more recent release of clab to support SR-SIM container).
+2. [nokia_sros SR-SIM](https://containerlab.dev/manual/kinds/vr-sros/) 25.7.R1+ image (25.7.R1 being the initial version introducing SR-SIM), and a valid license file.
 
 ## Clone the lab on your server
 To deploy this lab, you must clone it to your server with git.
@@ -89,12 +89,6 @@ To deploy this lab, you must clone it to your server with git.
 ```bash
 # change to a working directory of your choice and clone the lab
 git clone https://github.com/thcorre/SRv6-FlexAlgo-Telemetry-Lab-with-Nokia-SROS.git
-```
-
-SR OS VM image can be created as docker container using [VR Network Lab](https://github.com/vrnetlab/vrnetlab) (vr-sros must be set as an image in docker to be pull directly by containerlab):
-```
-# docker images | grep vr-sros
-vrnetlab/nokia_sros                               23.10.R6         6725f1548692   3 days ago      1.43GB
 ```
 
 ## Deploying the lab
@@ -112,8 +106,8 @@ Once the lab has been deployed, the different SR Linux nodes can be accessed via
 
 ```bash
 # reach a SR OS IP/MPLS router via SSH
-ssh admin@clab-srv6-flexalgo-R1
-ssh admin@clab-srv6-flexalgo-R5
+ssh admin@R1
+ssh admin@R5-a
 
 # reach a Linux client via Docker
 docker exec -it client1 bash
@@ -131,6 +125,6 @@ One Linux client (Client1) is sending unidirectional traffic to another client (
 A fine-grained control on links delay can be achieved via [NetEm](https://www.linux.org/docs/man8/tc-netem.html) commands applied at host level or directly through containerlab tool command (since release [0.44](https://containerlab.dev/rn/0.44/)) to influence the lowest latency path:
 ```bash
 # Add 100ms latency on eth2 interface for node R1
-containerlab tools netem set -n clab-srv6-flexalgo-R1 -i eth2 --delay 100ms
+containerlab tools netem set -n R1 -i eth2 --delay 100ms
 ```
 
